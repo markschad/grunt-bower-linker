@@ -1,0 +1,43 @@
+{
+  "name": "grunt-bower-linker",
+  "description": "Link bower components to an folder.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/markschad/grunt-bower-linker.git",
+  "author": {
+    "name": "Mark Schad",
+    "email": "mark.schad@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/markschad/grunt-bower-linker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mark/grunt-bower-linker/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/mark/grunt-bower-linker/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "bower": "~1.2.7",
+    "async": "~0.2.9",
+    "glob": "~3.2.7",
+    "minimatch": "~0.2.12"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.2"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}
