@@ -60,36 +60,40 @@ module.exports = function(grunt) {
       // Parse a bower package and link its main files.
       parse = function(pkg) {
 
-        async.each(Object.keys(pkg['dependencies']), function(key, next) {
+        if (pkg['dependencies']){
 
-          parse(pkg.dependencies[key]);
-          next(null);
+          async.each(Object.keys(pkg['dependencies']), function(key, next) {
 
-        }, function() {
+            parse(pkg.dependencies[key]);
+            next(null);
 
-          // Ensure this package has defined meta data, a list main packages and
-          // a reference to the absolute location of these files.
-          if (pkg.pkgMeta && pkg.pkgMeta.main && pkg.canonicalDir) {
+          }, function() {
 
-            // Process each main file.
-            async.each([].concat(pkg.pkgMeta.main), function(file, next) {
+            // Ensure this package has defined meta data, a list main packages and
+            // a reference to the absolute location of these files.
+            if (pkg.pkgMeta && pkg.pkgMeta.main && pkg.canonicalDir) {
 
-              // Glob the main file reference.
-              var sources = [].concat(glob.sync(path.join(pkg.canonicalDir, file)));
-              async.each(sources, function(source, next) {
+              // Process each main file.
+              async.each([].concat(pkg.pkgMeta.main), function(file, next) {
 
-                // Link the sources.
-                link(source);
-                next(null);
+                // Glob the main file reference.
+                var sources = [].concat(glob.sync(path.join(pkg.canonicalDir, file)));
+                async.each(sources, function(source, next) {
 
-              }, function() { next(null) });
+                  // Link the sources.
+                  link(source);
+                  next(null);
 
-            });
+                }, function() { next(null) });
 
-          }
+              });
 
-        });
+            }
 
+          });
+
+        }
+        
       };
 
     // Get the list of bower packages and link them.
