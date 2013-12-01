@@ -60,7 +60,7 @@ module.exports = function(grunt) {
       // Parse a bower package and link its main files.
       parse = function(pkg) {
 
-        async.each(Object.keys(pkg[dependencies]), function(key, next) {
+        async.each(Object.keys(pkg['dependencies']), function(key, next) {
 
           parse(pkg.dependencies[key]);
           next(null);
