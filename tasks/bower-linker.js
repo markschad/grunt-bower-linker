@@ -23,6 +23,8 @@ module.exports = function(grunt) {
       done = this.async(),
 
       options = this.options({
+        cwd: '.',
+        offline: true,
         root: 'linker',
         map: {
           '*.js': '/js',
@@ -58,7 +60,7 @@ module.exports = function(grunt) {
       // Parse a bower package and link its main files.
       parse = function(pkg) {
 
-        async.each(Object.keys(pkg.dependencies), function(key, next) {
+        async.each(Object.keys(pkg[dependencies]), function(key, next) {
 
           parse(pkg.dependencies[key]);
           next(null);
@@ -91,7 +93,7 @@ module.exports = function(grunt) {
       };
 
     // Get the list of bower packages and link them.
-    bower.commands.list({ map: false })
+    bower.commands.list({ map: false, offline: options.offline }, { cwd: options.cwd })
       .on('end', function(data) { 
 
         parse(data);  // Parse the base package.

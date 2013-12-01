@@ -15,9 +15,10 @@ module.exports = function(grunt) {
 
     // Configuration to be run.
     'bower-linker': {
-      default: {
+      test: {
         options: {
-          root: 'linker',
+          cwd: 'tests',
+          root: 'tests/linker',
           map: {
             '*.js': '/js',
             '*.css': '/css',
@@ -32,6 +33,6 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   // By default, run bower_linker.
-  grunt.registerTask('default', [ 'bower-linker' ]);
+  grunt.registerTask('default', [ 'bower-linker:test' ]);
 
 };
