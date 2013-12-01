@@ -32,7 +32,8 @@
     "bower": "~1.2.7",
     "async": "~0.2.9",
     "glob": "~3.2.7",
-    "minimatch": "~0.2.12"
+    "minimatch": "~0.2.12",
+    "grunt-contrib-symlink": "~0.2.0"
   },
   "peerDependencies": {
     "grunt": "~0.4.2"
