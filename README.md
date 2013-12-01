@@ -24,13 +24,15 @@ In your project's Gruntfile, add a section named `bower_linker` to the data obje
 
 ```js
 grunt.initConfig({
-  bower_linker: {
-    options: {
-      root: 'linker',     // The root directory to place linked sources.
-      map: {
-        '*.js': '/js',    // Sub directories to link specific source types.
-        '*.css': '/css',
-        '*': '/', 
+  'bower-linker': {
+    default: {
+      options: {
+        root: 'linker',     // The root directory to place linked sources.
+        map: {
+          '*.js': '/js',    // Sub directories to link specific source types.
+          '*.css': '/css',
+          '*': '/', 
+        }
       }
     }
   },

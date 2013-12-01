@@ -16,11 +16,13 @@ module.exports = function(grunt) {
     // Configuration to be run.
     'bower-linker': {
       default: {
-        root: 'linker',
-        map: {
-          '*.js': '/js',
-          '*.css': '/css',
-          '*': '/', 
+        options: {
+          root: 'linker',
+          map: {
+            '*.js': '/js',
+            '*.css': '/css',
+            '*': '/', 
+          }
         }
       }
     }
