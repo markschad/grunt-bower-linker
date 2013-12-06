@@ -15,10 +15,48 @@ module.exports = function(grunt) {
 
     // Configuration to be run.
     'bower-linker': {
-      test: {
+      testCopy: {
         options: {
           cwd: 'tests',
           root: 'tests/linker',
+          copy: true,
+          map: {
+            '*.js': '/js',
+            '*.css': '/css',
+            '*': '/', 
+          }
+        }
+      },
+      testLink: {
+        options: {
+          cwd: 'tests',
+          root: 'tests/linker',
+          map: {
+            '*.js': '/js',
+            '*.css': '/css',
+            '*': '/', 
+          },
+          force: true
+        }
+      },
+      testVendorCopy: {
+        options: {
+          cwd: 'tests',
+          root: 'tests/linker',
+          copy: true,
+          vendor: true,
+          map: {
+            '*.js': '/js',
+            '*.css': '/css',
+            '*': '/', 
+          }
+        }
+      },
+      testVendorLink: {
+        options: {
+          cwd: 'tests',
+          root: 'tests/linker',
+          vendor: true,
           map: {
             '*.js': '/js',
             '*.css': '/css',

@@ -13,47 +13,109 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('bower-linker', 'Link bower components to specified directory.', function() {
 
-    var 
-      bower = require('bower'),
-      path = require('path'),
+    var
       async = require('async'),
-      minimatch = require('minimatch'),
+      bower = require('bower'),
+      fs = require('fs'),
       glob = require('glob'),
+      minimatch = require('minimatch'),
+      path = require('path'),
 
       done = this.async(),
 
       options = this.options({
-        cwd: '.',
-        offline: true,
-        root: 'linker',
-        map: {
+        cwd: '.',                 // Current working directory.
+        offline: true,            // Run bower commands in offline mode. (faster)
+        copy: false,              // Copy the sources instead of creating a symbolic link.
+        vendor: false,            // Place components in a vendor folder between the root and the dest.
+        root: 'linker',           // The root folder to place the components in.
+        force: false,             // Overwrite files if they exist.
+        map: {                    // Where to map sources.
           '*.js': '/js',
           '*.css': '/css',
           '*': '/', 
         }
       }),
 
-      // Link a main file.
-      link = function(source) {
+      // The function used to link the files, either copy or symlink.
+      linkFn = function(src, dest) {
 
+        src = path.resolve(src);
+        dest = path.resolve(dest);
+
+        try {
+
+          if (options.force && fs.existsSync(dest)) {
+            grunt.log.writeln('Removing file: %s', dest);
+            fs.unlinkSync(dest);
+          }
+
+        }
+        catch (err) {
+          console.log('Could not unlink \'%s\'\n%s\nContinuing...', dest, err);
+        }
+        finally {
+          try {
+            options.copy ? grunt.file.copy(src, dest): fs.symlinkSync(src, dest, 'file');
+            grunt.log.writeln('Linked file:\n%s\ ===> %s', src, dest);
+          }
+          catch (err) {
+            grunt.log.writeln('Could not create link \n\'%s\'\ ===> \'%s\'\n%s\nContinuing...', dest, src, err);
+          }
+        }
+
+      },
+
+      // Create a directory and all intermediate directories.
+      mkdirp = function(target, cwd) {
+
+        var a = target.split(path.sep);
+        var d = path.join(cwd === undefined ? '.' : cwd, a.shift());
+
+        try {
+
+          if (!fs.existsSync(d))
+            fs.mkdirSync(d);
+
+        }
+        catch (err) {
+
+          grunt.log.writeln('Error creating directory: %s\n%s\nContinuing...', d, err);
+
+        }
+        finally {
+
+          if (a.length > 0)
+            mkdirp(path.join.apply(this, a), d);
+
+        }
+
+      },
+
+      // Link a main file.
+      link = function(source, vendor) {
+
+        vendor = vendor === undefined ? '/' : vendor;
         var filename = path.basename(source);
         grunt.log.writeln('Linking [%s]...', filename);
+
         for (var key in options.map) {
 
           // If this is a matching mapping then link the source to the
           // mapped directory.
-          if (minimatch(filename, key))
-            return grunt.file.copy(source,
-              path.join(options.root, options.map[key], filename)
-            );
+          if (minimatch(filename, key)) {
+            var target = path.join(options.root, vendor, options.map[key], filename);
+            mkdirp(path.dirname(target));
+            return linkFn(source, target);
+          }
 
         }
 
         // Link the source to the root linker directory if no specific
         // mapping was found.
-        return grunt.file.copy(source, 
-          path.join(options.root, filename)
-        );        
+        var target = path.join(options.root, vendor, filename);
+        mkdirp(path.dirname(target));
+        return linkFn(source, target);
 
       },
 
@@ -81,7 +143,7 @@ module.exports = function(grunt) {
                 async.each(sources, function(source, next) {
 
                   // Link the sources.
-                  link(source);
+                  link(source, options.vendor ? pkg.pkgMeta.name : undefined);
                   next(null);
 
                 }, function() { next(null) });
