@@ -65,7 +65,7 @@ Whether or not to force linking main files, overwriting existing files at the de
 #### map
 
 Type: `Object` 
-Default: `{ '*', '/' }`
+Default: `{ '*': '/' }`
 
 An object containing key/value pairs describing how files should be linked in the root directory.  The following example shows a map object which places `.css` files and `.js` files in separate directories and all other files in the root directory.
 
