@@ -39,5 +39,79 @@ grunt.initConfig({
 });
 ```
 
+### Options
+
+#### copy
+
+Type `Boolean` 
+Default: `false`
+
+If set to true the main files from each package will be copied instead of linked.
+
+#### cwd
+
+Type: `String` 
+Default: `'.'`
+
+The path to the current working directory which houses either a _bower_components_ directory or a _.bowerrc_ file.
+
+#### force
+
+Type: `Boolean` 
+Default: `false`
+
+Whether or not to force linking main files, overwriting existing files at the destination.
+
+#### map
+
+Type: `Object` 
+Default: `{ '*', '/' }`
+
+An object containing key/value pairs describing how files should be linked in the root directory.  The following example shows a map object which places `.css` files and `.js` files in separate directories and all other files in the root directory.
+
+```javascript
+{
+  '*.js': '/js',
+  '*.css': '/styles'
+  '*': '/'
+}
+```
+
+*Note*: grunt-bower-link uses minimatch to parse the map object.
+
+#### offline
+
+Type: `Boolean` 
+Default: `true`
+
+Whether or not to run bower commands in offline mode.  Offline mode is much faster.
+
+*Node*: There is no benefit to running this task in online mode.  This option is kept for potential use in the future.
+
+#### root
+
+Type: `String` 
+Default: `linker`
+
+The directory to place linked files in.
+
+#### vendor
+
+Type: `Boolean` 
+Default: `false`
+
+If this option is set to true, main files will be disseminated through an intermediate directory named after their package.  For example, if you have installed twitter bootstrap through bower it will place the sources in the follow manner:
+
+```text
++ root
+  + bootstrap
+      bootstrap.css
+      bootstrap.js
+      fonts.otf
+      ...
+  + jquery
+      jquery.js
+```
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
