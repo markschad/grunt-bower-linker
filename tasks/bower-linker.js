@@ -31,8 +31,6 @@ module.exports = function(grunt) {
         root: 'linker',           // The root folder to place the components in.
         force: false,             // Overwrite files if they exist.
         map: {                    // Where to map sources.
-          '*.js': '/js',
-          '*.css': '/css',
           '*': '/', 
         }
       }),
@@ -159,7 +157,7 @@ module.exports = function(grunt) {
       };
 
     // Get the list of bower packages and link them.
-    bower.commands.list({ map: false, offline: options.offline }, { cwd: options.cwd })
+    bower.commands.list({ map: false }, { cwd: options.cwd, offline: options.offline })
       .on('end', function(data) { 
 
         parse(data);  // Parse the base package.

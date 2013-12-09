@@ -1,7 +1,7 @@
 {
   "name": "grunt-bower-linker",
   "description": "Link bower components to an folder.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "homepage": "https://github.com/markschad/grunt-bower-linker.git",
   "author": {
     "name": "Mark Schad",
